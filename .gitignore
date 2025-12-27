@@ -1,0 +1,5 @@
+﻿target/
+.vs/
+Cargo.lock
+sporesec_capture.json
+**/node_modules

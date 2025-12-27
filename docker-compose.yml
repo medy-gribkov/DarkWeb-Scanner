@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  tor:
+    image: dperson/torproxy:latest
+    ports:
+      - "9050:9050"
+    restart: unless-stopped
+
+  sporesec-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - tor
+    ports:
+      - "8080:8080"
+    environment:
+      - SPORE_SIGNATURE=supersecret
+      - ADMIN_API_KEY=admin-secret
+      - JWT_SECRET=jwt-secret-key
+      - FRONTEND_DOMAIN=http://localhost:3000
+      - RUST_LOG=info
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_SPORE_SIGNATURE=supersecret
+    depends_on:
+      - sporesec-api
+    restart: unless-stopped
