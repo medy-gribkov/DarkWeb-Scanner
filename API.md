@@ -37,9 +37,9 @@ docker-compose up --build
 ### Environment Variables (Local)
 ```bash
 # Leave DATABASE_URL empty to use SQLite
-export SPORE_SIGNATURE="supersecret"
-export ADMIN_API_KEY="admin-key-here"
-export JWT_SECRET="your-secret-key-here"
+export SPORE_SIGNATURE="your-shared-signature-here"
+export ADMIN_API_KEY="your-admin-key-here"
+export JWT_SECRET="your-jwt-secret-here"
 export FRONTEND_DOMAIN="http://localhost:3000"
 export RUST_LOG="info"
 ```
@@ -247,7 +247,7 @@ export async function scanOnions(query: string, token?: string) {
   url.searchParams.set('query', query);
 
   const headers: Record<string, string> = {
-    'X-Spore-Signature': process.env.NEXT_PUBLIC_SPORE_SIGNATURE || 'supersecret',
+    'X-Spore-Signature': process.env.NEXT_PUBLIC_SPORE_SIGNATURE || 'your-signature-here',
   };
 
   if (token) {

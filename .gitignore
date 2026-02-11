@@ -1,5 +1,49 @@
-﻿target/
+﻿# Build artifacts
+target/
 .vs/
 Cargo.lock
-sporesec_capture.json
+
+# Node
 **/node_modules
+frontend/.next/
+
+# Environment & secrets
+.env
+.env.local
+.env.production
+data/
+
+# Sensitive data dumps (never commit)
+*.db
+sporesec_capture.json
+validation_list.json
+current_backlog.json
+full_system_dump.json
+items_dump.json
+items_fresh.json
+project_map.json
+project_map_v2.json
+project_map_fresh.json
+project_map_final.json
+current_views.json
+debug_views_current.json
+fields.json
+final_view_state.json
+item_debug.json
+project_debug.json
+project_fields.json
+projects_list.json
+rescue_ids.json
+unique_views_map.json
+
+# Dev scripts with potential PII
+setup_git_identities.ps1
+fix_git_config_v2.ps1
+fix_remotes.ps1
+
+# Dev scripts (GraphQL queries, PowerShell automation)
+*.graphql
+*.ps1
+
+# Misc dev artifacts
+*.txt

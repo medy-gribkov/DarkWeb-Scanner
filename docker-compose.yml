@@ -15,10 +15,10 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPORE_SIGNATURE=supersecret
-      - ADMIN_API_KEY=admin-secret
-      - JWT_SECRET=jwt-secret-key
-      - FRONTEND_DOMAIN=http://localhost:3000
+      - SPORE_SIGNATURE=${SPORE_SIGNATURE:-change-me-at-runtime}
+      - ADMIN_API_KEY=${ADMIN_API_KEY:-change-me-at-runtime}
+      - JWT_SECRET=${JWT_SECRET:-change-me-at-runtime}
+      - FRONTEND_DOMAIN=${FRONTEND_DOMAIN:-http://localhost:3000}
       - RUST_LOG=info
     restart: unless-stopped
 
@@ -29,7 +29,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NEXT_PUBLIC_SPORE_SIGNATURE=supersecret
+      - NEXT_PUBLIC_SPORE_SIGNATURE=${SPORE_SIGNATURE:-change-me-at-runtime}
     depends_on:
       - sporesec-api
     restart: unless-stopped

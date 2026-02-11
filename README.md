@@ -26,8 +26,8 @@ This will start:
 - `frontend` (Node) on port 3000
 
 Environment
-- `ADMIN_API_KEY` - admin key for token issuance
-- `JWT_SECRET` - secret for signing tokens
+- `ADMIN_API_KEY` - admin key for token issuance (Strictly required)
+- `JWT_SECRET` - secret for signing tokens (Strictly required)
 - `SPORE_SIGNATURE` / `NEXT_PUBLIC_SPORE_SIGNATURE` - shared signature between frontend and backend
 
 CLI mode

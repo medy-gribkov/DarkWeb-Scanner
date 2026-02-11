@@ -9,7 +9,9 @@ export default function Home() {
   const submit = async () => {
     setLoading(true)
     try {
-      const res = await axios.get(`/v1/scan?query=${encodeURIComponent(query)}`, { headers: { 'X-Spore-Signature': process.env.NEXT_PUBLIC_SPORE_SIGNATURE || 'supersecret' } })
+      const res = await axios.get(`/v1/scan?query=${encodeURIComponent(query)}`, {
+        headers: { 'X-Spore-Signature': process.env.NEXT_PUBLIC_SPORE_SIGNATURE }
+      })
       setResult(res.data)
     } catch (e) {
       setResult({ error: e.toString() })
@@ -22,7 +24,7 @@ export default function Home() {
       <div className="max-w-3xl mx-auto bg-white shadow p-6 rounded">
         <h1 className="text-2xl font-bold mb-4">SPORESEC Dashboard (Local)</h1>
         <div className="mb-4">
-          <input value={query} onChange={(e)=>setQuery(e.target.value)} className="w-full p-2 border rounded" placeholder="Search query" />
+          <input value={query} onChange={(e) => setQuery(e.target.value)} className="w-full p-2 border rounded" placeholder="Search query" />
         </div>
         <div className="flex gap-2">
           <button onClick={submit} disabled={loading} className="px-4 py-2 bg-blue-600 text-white rounded">{loading ? 'Scanning...' : 'Scan'}</button>

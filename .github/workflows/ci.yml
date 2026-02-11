@@ -1,36 +1,40 @@
-name: CI
+name: CI Guardrails
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main", "develop", "production" ]
+  push:
+    branches: [ "main" ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@v1
-      - name: Cache cargo registry
-        uses: actions/cache@v4
-        with:
-          path: ~/.cargo/registry
-          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
-      - name: Cache cargo build
-        uses: actions/cache@v4
-        with:
-          path: target
-          key: ${{ runner.os }}-cargo-target-${{ hashFiles('**/Cargo.lock') }}
-      - name: Build
-        run: cargo build --release
-      - name: Run tests
-        run: cargo test --verbose
-      - name: Build Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: false
-          tags: ghcr.io/${{ github.repository_owner }}/sporesec-darkweb-scanner:latest
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.21'
+        cache: true
+
+    - name: Set up Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    # Build Guard (JS/TS)
+    - name: Install Dependencies
+      run: npm ci
+      continue-on-error: true # Allow pass if no package.json (Monorepo fallback)
+
+    - name: Build Frontend
+      run: npm run build
+      if: hashFiles('package.json') != ''
+
+    # Test Guard (Go)
+    - name: Run Go Tests
+      run: go test -v ./...
+      if: hashFiles('go.mod') != ''

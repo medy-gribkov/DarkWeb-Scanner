@@ -178,6 +178,20 @@ async fn metrics_handler(registry: web::Data<Registry>) -> impl Responder {
 async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
 
+    // Security check: Ensure critical keys are set and not using defaults
+    let admin_key = env::var("ADMIN_API_KEY").unwrap_or_default();
+    let jwt_secret = env::var("JWT_SECRET").unwrap_or_default();
+    
+    if admin_key.is_empty() || admin_key == "admin-secret" || admin_key == "change-me-at-runtime" {
+        log::error!("CRITICAL SECURITY: ADMIN_API_KEY is not set or using a default. Please set a secure key in your environment.");
+        return Err(std::io::Error::new(std::io::ErrorKind::Other, "Insecure ADMIN_API_KEY"));
+    }
+    
+    if jwt_secret.is_empty() || jwt_secret == "jwt-secret-key" || jwt_secret == "change-me-at-runtime" {
+        log::error!("CRITICAL SECURITY: JWT_SECRET is not set or using a default. Please set a secure key in your environment.");
+        return Err(std::io::Error::new(std::io::ErrorKind::Other, "Insecure JWT_SECRET"));
+    }
+
     let args: Args = Args::parse();
     let title = Style::new().green().bold();
 
