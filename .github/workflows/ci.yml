@@ -24,15 +24,18 @@ jobs:
       with:
         node-version: '20'
         cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
 
-    # Build Guard (JS/TS)
-    - name: Install Dependencies
+    # Build Guard (JS/TS) for frontend folder.
+    - name: Install Frontend dependencies
+      working-directory: frontend
       run: npm ci
-      continue-on-error: true # Allow pass if no package.json (Monorepo fallback)
+      if: hashFiles('frontend/package-lock.json') != ''
 
     - name: Build Frontend
+      working-directory: frontend
       run: npm run build
-      if: hashFiles('package.json') != ''
+      if: hashFiles('frontend/package.json') != ''
 
     # Test Guard (Go)
     - name: Run Go Tests
