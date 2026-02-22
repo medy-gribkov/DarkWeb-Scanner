@@ -1,5 +1,7 @@
 # DarkWeb-Scanner
 
+[![CI Guardrails](https://github.com/medy-gribkov/DarkWeb-Scanner/actions/workflows/ci.yml/badge.svg)](https://github.com/medy-gribkov/DarkWeb-Scanner/actions/workflows/ci.yml)
+
 **Industrial-grade dark web scanner built with Rust and Node.js.**
 
 ![Rust](https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white)

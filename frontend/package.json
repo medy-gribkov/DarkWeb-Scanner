@@ -7,6 +7,12 @@
     "build": "next build",
     "start": "next start -p 3000"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/medy-gribkov/DarkWeb-Scanner.git"
+  },
+  "author": "medy-gribkov",
+  "license": "SEE LICENSE IN LICENSE_RESTRICTIVE.md",
   "dependencies": {
     "next": "14",
     "react": "18",
